@@ -1,38 +1,28 @@
 from flask import Flask
 
+# create the flask app
 app = Flask(__name__)
 
+# list of car models
+existing_models = ["corolla", "camry", "mustang", "civic"]
 
-@app.route("/")
-def index():
-    return "<h1>Python Operations with Flask Routing and Views</h1>"
+# home route
+@app.route('/')
+def home():
+    return "Welcome to Flatiron Cars"
 
+# dynamic route
+@app.route('/<model>')
+def car_model(model):
 
-@app.route("/print/<string:param>")
-def print_string(param):
-    print(param)
-    return param
-
-
-@app.route("/count/<int:num>")
-def count(num):
-    return "\n".join(str(i) for i in range(num + 1))
-
-
-@app.route("/math/<int:num1>/<operation>/<int:num2>")
-def math(num1, operation, num2):
-    if operation == "+":
-        return str(num1 + num2)
-    elif operation == "-":
-        return str(num1 - num2)
-    elif operation == "*":
-        return str(num1 * num2)
-    elif operation == "div":
-        return str(num1 / num2)
-    elif operation == "%":
-        return str(num1 % num2)
+    # check if model exists
+    if model in existing_models:
+        return f"Flatiron {model} is in our fleet!"
+    
+    # if model does not exist
+    return f"No models called {model} exists in our catalog"
 
 
+# this starts the flask server
 if __name__ == "__main__":
-    app.run(port=5555, debug=True)
-
+    app.run(debug=True)
